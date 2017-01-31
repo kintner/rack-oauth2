@@ -35,7 +35,7 @@ module Rack
 
           raise Rack::OAuth2::AccessToken::MAC::Verifier::VerificationFailed.new("Request ts expired") if now - request.ts.to_i > @ts_expires_in.to_i
 
-          Signature.new(
+          sig = Signature.new(
             secret:      self.mac_key,
             algorithm:   self.mac_algorithm,
             nonce:       request.nonce,
@@ -45,7 +45,13 @@ module Rack
             port:        request.port,
             ts:          request.ts,
             ext:         request.ext
-          ).verify!(request.signature)
+          )
+
+          Rails.logger.debug "------------------"
+          Rails.logger.debug sig.inspect
+          Rails.logger.debug "------------------"
+
+          sig.verify!(request.signature)
         rescue Verifier::VerificationFailed => e
           request.invalid_token! e.message
         end
