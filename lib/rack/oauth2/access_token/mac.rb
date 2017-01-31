@@ -47,9 +47,9 @@ module Rack
             ext:         request.ext
           )
 
-          Rails.logger.debug "------------------"
-          Rails.logger.debug sig.inspect
-          Rails.logger.debug "------------------"
+          Rails.logger.info "------------------"
+          Rails.logger.info sig.inspect
+          Rails.logger.info "------------------"
 
           sig.verify!(request.signature)
         rescue Verifier::VerificationFailed => e

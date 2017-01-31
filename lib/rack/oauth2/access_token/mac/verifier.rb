@@ -21,7 +21,7 @@ module Rack
             if expected == self.calculate
               :verified
             else
-              Rails.logger.debug "expected: #{expected} calculated: #{calculate}"
+              Rails.logger.info "expected: #{expected} calculated: #{calculate}"
               raise VerificationFailed.new("#{self.class.name.demodulize} Invalid")
             end
           end
